@@ -20,42 +20,41 @@ const getDashboardMetrics = (req, res) => __awaiter(void 0, void 0, void 0, func
                 stockQuantity: "desc",
             },
         });
-        const saleSummary = yield prisma.salesSummary.findMany({
-            take: 15,
+        const salesSummary = yield prisma.salesSummary.findMany({
+            take: 5,
             orderBy: {
                 date: "desc",
             },
         });
         const purchaseSummary = yield prisma.purchaseSummary.findMany({
-            take: 15,
+            take: 5,
             orderBy: {
                 date: "desc",
             },
         });
         const expenseSummary = yield prisma.expenseSummary.findMany({
-            take: 15,
+            take: 5,
             orderBy: {
                 date: "desc",
             },
         });
         const expenseByCategorySummaryRaw = yield prisma.expenseByCategory.findMany({
-            take: 15,
+            take: 5,
             orderBy: {
                 date: "desc",
             },
         });
-        const expenseByCategory = expenseByCategorySummaryRaw.map((item) => (Object.assign(Object.assign({}, item), { amount: item.amount.toString() })));
+        const expenseByCategorySummary = expenseByCategorySummaryRaw.map((item) => (Object.assign(Object.assign({}, item), { amount: item.amount.toString() })));
         res.json({
             popularProducts,
-            saleSummary,
+            salesSummary,
             purchaseSummary,
             expenseSummary,
-            expenseByCategorySummaryRaw,
-            expenseByCategory,
+            expenseByCategorySummary,
         });
     }
     catch (error) {
-        res.status(500).json({ message: "error retrieving dashboard metrics" });
+        res.status(500).json({ message: "Error retrieving dashboard metrics" });
     }
 });
 exports.getDashboardMetrics = getDashboardMetrics;
